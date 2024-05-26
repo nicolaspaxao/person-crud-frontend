@@ -1,10 +1,32 @@
-<main class="content-container">
-  <ul>
-    <li *ngFor="let person of personController.listPerson">
-      <div class="image-container">
-        <img [src]="person.photoUrl" [alt]="person.firstName" />
-      </div>
-      <p>{{ person.firstName }}</p>
-    </li>
-  </ul>
+<main class="container mx-auto px-4 pt-3">
+  <h2 class="text-2xl text-purple-800 font-bold">Listagem de pessoas</h2>
+  <table class="container table-fixed border-collapse border mt-6">
+    <thead>
+      <tr class="bg-slate-700 text-white uppercase">
+        <th class="border border-slate-600">Nome</th>
+        <th class="border border-slate-600">Sobrenome</th>
+        <th class="border border-slate-600">Documento</th>
+        <th class="border border-slate-600">E-mail</th>
+        <th class="border border-slate-600">Data de nascimento</th>
+        <th class="border border-slate-600">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of personController.listPerson">
+        <td class="border border-slate-700">{{ person.firstName }}</td>
+        <td class="border border-slate-700">{{ person.lastName }}</td>
+        <td class="border border-slate-700">{{ person.document }}</td>
+        <td class="border border-slate-700">{{ person.email }}</td>
+        <td class="border border-slate-700">{{ person.dateOfBirth }}</td>
+        <td class="border border-slate-700">
+          <button class="bg-red-600 text-white px-4 py-1 mr-2 rounded-lg">
+            Deletar
+          </button>
+          <button class="bg-amber-500 text-white px-4 py-1 rounded-lg">
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </main>
