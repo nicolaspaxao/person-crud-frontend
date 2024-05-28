@@ -1,12 +1,12 @@
 export interface IPerson {
-  id: string
+  id?: string
   firstName: string
   lastName: string
   document: string
   email: string
   phoneNumber: string
   dateOfBirth: string
-  photoUrl: string
+  photoUrl?: string
   address: IAddress
 }
 

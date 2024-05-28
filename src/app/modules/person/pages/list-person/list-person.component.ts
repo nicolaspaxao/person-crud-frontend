@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, } from '@angular/core';
 import { PersonControllerService as PersonController } from '../../controller/person-controller.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ModalCreateComponent } from '../../../../shared/modal-create/modal-create.component';
 
 @Component({
   selector: 'app-list-person',
   standalone: true,
-  imports: [HttpClientModule, CommonModule],
+  imports: [HttpClientModule, CommonModule, ModalCreateComponent],
   templateUrl: './list-person.component.html',
   styleUrl: './list-person.component.scss'
 })
 export class ListPersonComponent {
-
   constructor(public personController: PersonController) {
 
   }
@@ -19,5 +19,4 @@ export class ListPersonComponent {
   ngOnInit() {
     this.personController.getPersons();
   }
-
 }
