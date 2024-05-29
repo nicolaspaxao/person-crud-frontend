@@ -7,21 +7,16 @@
   --primary-color: #5c4f79;
 }
 
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .content-container {
   padding: 80px 2rem;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.modal {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
 }

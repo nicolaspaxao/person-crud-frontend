@@ -29,21 +29,7 @@ export class PersonControllerService {
   }
 
   public createPerson(person: IPerson) {
-    this.http.post<IPerson>(this.baseUrl + this.personPath, person).subscribe({
-      next: (value: IPerson) => {
-        if (value.id != null) {
-          this.getPersons();
-        }
-      },
-      error: (err) => {
-        console.log(err);
-        if (err.status == 500 || err.status == 404) {
-          alert(err.error.errorMessage)
-        } else {
-          alert(err.error.detail)
-        }
-      },
-    })
+    return this.http.post<IPerson>(this.baseUrl + this.personPath, person);
   }
 
   public getCep(cep: string): Observable<IAddressResponse> {

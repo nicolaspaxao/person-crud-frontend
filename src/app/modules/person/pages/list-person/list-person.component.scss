@@ -1,12 +1,18 @@
-th {
-  text-align: start;
-  padding: 0.5rem;
-}
+:host {
+  input {
+    border-bottom: 1px solid #3e3e3e;
+    padding: 0.2rem;
+  }
 
-td {
-  padding: 0.5rem;
-}
+  input:focus {
+    outline: none;
+  }
 
-main {
-  position: relative;
+  .input-error {
+    border-bottom: 1px solid red;
+  }
+
+  .input-success {
+    border-bottom: 1px solid green;
+  }
 }

@@ -1,34 +1,94 @@
 <main class="container mx-auto px-4 pt-3">
-  <h2 class="text-2xl text-purple-800 font-bold">Listagem de pessoas</h2>
-  <table class="container table-fixed border-collapse border mt-6">
-    <thead>
-      <tr class="bg-slate-700 text-white uppercase">
-        <th class="border border-slate-600">Nome</th>
-        <th class="border border-slate-600">Sobrenome</th>
-        <th class="border border-slate-600">Documento</th>
-        <th class="border border-slate-600">E-mail</th>
-        <th class="border border-slate-600">Data de nascimento</th>
-        <th class="border border-slate-600">Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let person of personController.listPerson">
-        <td class="border border-slate-700">{{ person.firstName }}</td>
-        <td class="border border-slate-700">{{ person.lastName }}</td>
-        <td class="border border-slate-700">{{ person.document }}</td>
-        <td class="border border-slate-700">{{ person.email }}</td>
-        <td class="border border-slate-700">{{ person.dateOfBirth }}</td>
-        <td class="border border-slate-700">
-          <button class="bg-red-600 text-white px-4 py-1 mr-2 rounded-lg">
-            Deletar
-          </button>
-          <button class="bg-amber-500 text-white px-4 py-1 rounded-lg">
-            Editar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <form [formGroup]="createForm">
+    <h2 class="text-xl font-bold mb-6">Dados pessoais</h2>
+    <div class="flex flex-col gap-2">
+      <input
+        placeholder="Nome"
+        formControlName="firstName"
+        [ngClass]="utils.checkInput(createForm, 'firstName')"
+      />
+      <input
+        placeholder="Sobrenome"
+        formControlName="lastName"
+        [ngClass]="utils.checkInput(createForm, 'lastName')"
+      />
+      <input
+        placeholder="Documento"
+        formControlName="document"
+        mask="000.000.000-00"
+        inputmode="numeric"
+        [ngClass]="utils.checkInput(createForm, 'document')"
+      />
+      <input
+        placeholder="E-mail"
+        formControlName="email"
+        type="email"
+        [ngClass]="utils.checkInput(createForm, 'email')"
+      />
+      <input
+        placeholder="Celular"
+        formControlName="phoneNumber"
+        mask="(00) 00000-0000"
+        type="tel"
+        [ngClass]="utils.checkInput(createForm, 'phoneNumber')"
+      />
+      <input
+        placeholder="Data de nascimento"
+        formControlName="dateOfBirth"
+        mask="00/00/0000"
+        type="datetime"
+        [dropSpecialCharacters]="false"
+        [ngClass]="utils.checkInput(createForm, 'dateOfBirth')"
+      />
+      <div class="flex flex-row gap-2">
+        <input
+          class="flex-1"
+          placeholder="CEP"
+          formControlName="zipcode"
+          mask="00000-000"
+          [ngClass]="utils.checkInput(createForm, 'zipcode')"
+        />
+        <button class="bg-indigo-500 px-3" (click)="getCep()">Buscar</button>
+      </div>
+      <input
+        placeholder="Rua"
+        formControlName="street"
+        [ngClass]="utils.checkInput(createForm, 'street')"
+      />
+      <input
+        placeholder="Complemento"
+        formControlName="extraLine"
+        [ngClass]="utils.checkInput(createForm, 'extraLine')"
+      />
+      <input
+        placeholder="Bairro"
+        formControlName="neighborhood"
+        [ngClass]="utils.checkInput(createForm, 'neighborhood')"
+      />
+      <input
+        placeholder="Cidade"
+        formControlName="city"
+        [ngClass]="utils.checkInput(createForm, 'city')"
+      />
+      <input
+        placeholder="UF"
+        formControlName="state"
+        maxlength="2"
+        [ngClass]="utils.checkInput(createForm, 'state')"
+      />
+      <input
+        placeholder="Nº"
+        type="number"
+        formControlName="number"
+        [ngClass]="utils.checkInput(createForm, 'number')"
+      />
+      <button (click)="onSubmit()" class="bg-indigo-500">Enviar</button>
+    </div>
+  </form>
+  <hr class="my-2" />
+  <ul>
+    <li *ngFor="let person of personController.listPerson">
+      <p>{{ person.firstName }}</p>
+    </li>
+  </ul>
 </main>
-
-<app-modal-create></app-modal-create>

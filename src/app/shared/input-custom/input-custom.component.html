@@ -1,11 +1,13 @@
 <div class="group">
   <input
-    type="text"
+    [type]="type"
     class="input"
     [value]="value"
+    [type]="type"
     (input)="handleInputChange($event)"
+    [mask]="mask"
+    [ngClass]="getClass()"
   />
   <span class="highlight"></span>
-  <span class="bar"></span>
   <label>{{ label }}</label>
 </div>

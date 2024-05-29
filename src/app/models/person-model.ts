@@ -17,5 +17,6 @@ export interface IAddress {
   neighborhood: string
   city: string
   state: string
+  number: number
 }
 
