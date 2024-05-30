@@ -1,36 +1,36 @@
 <main class="container mx-auto px-4 pt-3">
-  <form [formGroup]="createForm">
+  <form [formGroup]="personController.personForm">
     <h2 class="text-xl font-bold mb-6">Dados pessoais</h2>
     <div class="flex flex-col gap-2">
       <input
         placeholder="Nome"
         formControlName="firstName"
-        [ngClass]="utils.checkInput(createForm, 'firstName')"
+        [ngClass]="utils.checkInput(personController.personForm, 'firstName')"
       />
       <input
         placeholder="Sobrenome"
         formControlName="lastName"
-        [ngClass]="utils.checkInput(createForm, 'lastName')"
+        [ngClass]="utils.checkInput(personController.personForm, 'lastName')"
       />
       <input
         placeholder="Documento"
         formControlName="document"
         mask="000.000.000-00"
         inputmode="numeric"
-        [ngClass]="utils.checkInput(createForm, 'document')"
+        [ngClass]="utils.checkInput(personController.personForm, 'document')"
       />
       <input
         placeholder="E-mail"
         formControlName="email"
         type="email"
-        [ngClass]="utils.checkInput(createForm, 'email')"
+        [ngClass]="utils.checkInput(personController.personForm, 'email')"
       />
       <input
         placeholder="Celular"
         formControlName="phoneNumber"
         mask="(00) 00000-0000"
         type="tel"
-        [ngClass]="utils.checkInput(createForm, 'phoneNumber')"
+        [ngClass]="utils.checkInput(personController.personForm, 'phoneNumber')"
       />
       <input
         placeholder="Data de nascimento"
@@ -38,7 +38,7 @@
         mask="00/00/0000"
         type="datetime"
         [dropSpecialCharacters]="false"
-        [ngClass]="utils.checkInput(createForm, 'dateOfBirth')"
+        [ngClass]="utils.checkInput(personController.personForm, 'dateOfBirth')"
       />
       <div class="flex flex-row gap-2">
         <input
@@ -46,41 +46,43 @@
           placeholder="CEP"
           formControlName="zipcode"
           mask="00000-000"
-          [ngClass]="utils.checkInput(createForm, 'zipcode')"
+          [ngClass]="utils.checkInput(personController.personForm, 'zipcode')"
         />
         <button class="bg-indigo-500 px-3" (click)="getCep()">Buscar</button>
       </div>
       <input
         placeholder="Rua"
         formControlName="street"
-        [ngClass]="utils.checkInput(createForm, 'street')"
+        [ngClass]="utils.checkInput(personController.personForm, 'street')"
       />
       <input
         placeholder="Complemento"
         formControlName="extraLine"
-        [ngClass]="utils.checkInput(createForm, 'extraLine')"
+        [ngClass]="utils.checkInput(personController.personForm, 'extraLine')"
       />
       <input
         placeholder="Bairro"
         formControlName="neighborhood"
-        [ngClass]="utils.checkInput(createForm, 'neighborhood')"
+        [ngClass]="
+          utils.checkInput(personController.personForm, 'neighborhood')
+        "
       />
       <input
         placeholder="Cidade"
         formControlName="city"
-        [ngClass]="utils.checkInput(createForm, 'city')"
+        [ngClass]="utils.checkInput(personController.personForm, 'city')"
       />
       <input
         placeholder="UF"
         formControlName="state"
         maxlength="2"
-        [ngClass]="utils.checkInput(createForm, 'state')"
+        [ngClass]="utils.checkInput(personController.personForm, 'state')"
       />
       <input
         placeholder="Nº"
         type="number"
         formControlName="number"
-        [ngClass]="utils.checkInput(createForm, 'number')"
+        [ngClass]="utils.checkInput(personController.personForm, 'number')"
       />
       <button (click)="onSubmit()" class="bg-indigo-500">Enviar</button>
     </div>

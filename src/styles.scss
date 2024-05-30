@@ -3,20 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #5c4f79;
+.content-container {
+  padding: 80px 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-.content-container {
-  padding: 80px 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+input {
+  border-bottom: 1px solid #3e3e3e;
+  padding: 0.2rem;
+}
+
+input:focus {
+  outline: none;
+}
+
+.input-error {
+  border-bottom: 1px solid red;
+}
+
+.input-success {
+  border-bottom: 1px solid green;
 }
