@@ -1,96 +1,166 @@
 <main class="container mx-auto px-4 pt-3">
-  <form [formGroup]="personController.personForm">
-    <h2 class="text-xl font-bold mb-6">Dados pessoais</h2>
-    <div class="flex flex-col gap-2">
-      <input
-        placeholder="Nome"
-        formControlName="firstName"
-        [ngClass]="utils.checkInput(personController.personForm, 'firstName')"
-      />
-      <input
-        placeholder="Sobrenome"
-        formControlName="lastName"
-        [ngClass]="utils.checkInput(personController.personForm, 'lastName')"
-      />
-      <input
-        placeholder="Documento"
-        formControlName="document"
-        mask="000.000.000-00"
-        inputmode="numeric"
-        [ngClass]="utils.checkInput(personController.personForm, 'document')"
-      />
-      <input
-        placeholder="E-mail"
-        formControlName="email"
-        type="email"
-        [ngClass]="utils.checkInput(personController.personForm, 'email')"
-      />
-      <input
-        placeholder="Celular"
-        formControlName="phoneNumber"
-        mask="(00) 00000-0000"
-        type="tel"
-        [ngClass]="utils.checkInput(personController.personForm, 'phoneNumber')"
-      />
-      <input
-        placeholder="Data de nascimento"
-        formControlName="dateOfBirth"
-        mask="00/00/0000"
-        type="datetime"
-        [dropSpecialCharacters]="false"
-        [ngClass]="utils.checkInput(personController.personForm, 'dateOfBirth')"
-      />
-      <div class="flex flex-row gap-2">
-        <input
-          class="flex-1"
-          placeholder="CEP"
+  <button
+    data-modal-target="create-modal"
+    data-modal-toggle="create-modal"
+    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button"
+    (click)="clearForm()"
+  >
+    Adicionar
+  </button>
+</main>
+
+<app-modal modalId="create-modal" modalTitle="Criar uma nova pessoa">
+  <form
+    class="space-y-1"
+    [formGroup]="personController.personForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="firstName"
+          label="Nome"
+          formControlName="firstName"
+          placeHolder="Seu primeiro nome"
+          [form]="personController.personForm"
+        />
+      </div>
+
+      <div class="flex-1">
+        <app-custom-input
+          id="lastName"
+          label="Sobrenome"
+          formControlName="lastName"
+          placeHolder="Seu sobrenome aqui"
+          [form]="personController.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="document"
+          label="Documento"
+          mask="000.000.000-00"
+          formControlName="document"
+          placeHolder="Texto aqui"
+          [form]="personController.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="phoneNumber"
+          inputType="tel"
+          label="Celular"
+          mask="(00) 00000-0000"
+          [useMask]="false"
+          formControlName="phoneNumber"
+          placeHolder="Celular"
+          [form]="personController.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          inputType="email"
+          id="email"
+          label="E-mail"
+          formControlName="email"
+          placeHolder="E-mail"
+          [form]="personController.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="dateOfBirth"
+          label="Data de nascimento"
+          formControlName="dateOfBirth"
+          mask="00/00/0000"
+          [useMask]="false"
+          placeHolder="Data de nascimento"
+          [form]="personController.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex flex-row items-end gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="zipcode"
+          label="CEP"
           formControlName="zipcode"
           mask="00000-000"
-          [ngClass]="utils.checkInput(personController.personForm, 'zipcode')"
+          placeHolder="CEP"
+          [form]="personController.personForm"
         />
-        <button class="bg-indigo-500 px-3" (click)="getCep()">Buscar</button>
       </div>
-      <input
-        placeholder="Rua"
-        formControlName="street"
-        [ngClass]="utils.checkInput(personController.personForm, 'street')"
+      <app-primary-button
+        title="Buscar"
+        inputType="button"
+        [isLoading]="cepLoading"
+        (onTap)="getCep()"
+        height="h-11"
       />
-      <input
-        placeholder="Complemento"
-        formControlName="extraLine"
-        [ngClass]="utils.checkInput(personController.personForm, 'extraLine')"
-      />
-      <input
-        placeholder="Bairro"
-        formControlName="neighborhood"
-        [ngClass]="
-          utils.checkInput(personController.personForm, 'neighborhood')
-        "
-      />
-      <input
-        placeholder="Cidade"
-        formControlName="city"
-        [ngClass]="utils.checkInput(personController.personForm, 'city')"
-      />
-      <input
-        placeholder="UF"
-        formControlName="state"
-        maxlength="2"
-        [ngClass]="utils.checkInput(personController.personForm, 'state')"
-      />
-      <input
-        placeholder="Nº"
-        type="number"
-        formControlName="number"
-        [ngClass]="utils.checkInput(personController.personForm, 'number')"
-      />
-      <button (click)="onSubmit()" class="bg-indigo-500">Enviar</button>
     </div>
-  </form>
-  <hr class="my-2" />
-  <ul>
-    <li *ngFor="let person of personController.listPerson">
-      <p>{{ person.firstName }}</p>
-    </li>
-  </ul>
-</main>
+    <app-custom-input
+      id="street"
+      label="Rua"
+      formControlName="street"
+      placeHolder="Rua"
+      [form]="personController.personForm"
+    />
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="max-2xl:w-20 max-sm:w-auto">
+        <app-custom-input
+          id="number"
+          label="Nº"
+          formControlName="number"
+          placeHolder="Número"
+          [form]="personController.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="extraLine"
+          label="Complemento"
+          formControlName="extraLine"
+          placeHolder="Complemento da residência (opcional)"
+          [form]="personController.personForm"
+        />
+      </div>
+    </div>
+    <app-custom-input
+      id="neighborhood"
+      label="Bairro"
+      formControlName="neighborhood"
+      placeHolder="Bairro"
+      [form]="personController.personForm"
+    />
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="max-2xl:w-20 max-sm:w-auto">
+        <app-custom-input
+          id="state"
+          label="Estado"
+          formControlName="state"
+          placeHolder="UF"
+          [form]="personController.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="city"
+          label="Cidade"
+          formControlName="city"
+          placeHolder="Cidade"
+          [form]="personController.personForm"
+        />
+      </div>
+    </div>
+    <div class="h-4"></div>
+    <app-primary-button
+      title="Criar"
+      inputType="submit"
+      [isLoading]="createLoading"
+    /></form
+></app-modal>

@@ -22,7 +22,7 @@ export class PersonControllerService {
   public personForm: FormGroup = this.form.group({
     firstName: [null, [Validators.required]],
     lastName: [null, [Validators.required]],
-    document: [null, [Validators.required]],
+    document: [null, [Validators.required, AppValidators.cpfValidator]],
     email: [null, [Validators.required, AppValidators.emailValidator]],
     phoneNumber: [null, [Validators.required, Validators.maxLength(15), AppValidators.phoneNumberValidator]],
     dateOfBirth: [null, [Validators.required]],
