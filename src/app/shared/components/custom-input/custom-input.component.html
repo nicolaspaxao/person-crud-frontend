@@ -12,7 +12,7 @@
     [value]="value"
     [disabled]="disabled"
     [placeholder]="placeHolder"
-    [dropSpecialCharacters]="useMask"
+    [dropSpecialCharacters]="useMask!"
     (input)="handleInputChange($event)"
     [ngClass]="utils.checkInput(form!, id!)"
     class="border text-sm rounded-lg block w-full p-2.5 flex-1"

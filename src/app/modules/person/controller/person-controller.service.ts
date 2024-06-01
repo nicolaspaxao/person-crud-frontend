@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IPerson } from '../../../models/person-model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environment/environment';
 import { IAddressResponse } from '../../../models/address-response';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppValidators } from '../../../core/utils/app-validator';
+import { ProviderApiService } from '../../../core/providers/provider-api.service';
+import { AppRemovers } from '../../../core/utils/app-removers';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +15,13 @@ import { AppValidators } from '../../../core/utils/app-validator';
 export class PersonControllerService {
   public baseUrl = environment.baseUrl;
   public personPath = environment.personPath;
-  public providerPath = environment.providerPath;
 
   public listPerson: IPerson[] = [];
 
-  constructor(private http: HttpClient, public form: FormBuilder) { }
+  constructor(private http: HttpClient, public form: FormBuilder, public provider: ProviderApiService) { }
+
+  public cepLoading: boolean = false;
+  public createLoading: boolean = false;
 
   public personForm: FormGroup = this.form.group({
     firstName: [null, [Validators.required]],
@@ -45,9 +49,9 @@ export class PersonControllerService {
     let person: IPerson = {
       firstName: form.value.firstName,
       lastName: form.value.lastName,
-      document: form.value.document,
+      document: AppRemovers.removeDocMask(form.value.document),
       email: form.value.email,
-      phoneNumber: form.value.phoneNumber,
+      phoneNumber: AppRemovers.removePhoneMask(form.value.phoneNumber),
       dateOfBirth: form.value.dateOfBirth,
       address: {
         zipCode: form.value.zipcode,
@@ -62,8 +66,29 @@ export class PersonControllerService {
     return this.http.post<IPerson>(this.baseUrl + this.personPath, person);
   }
 
-  public getCep(cep: string): Observable<IAddressResponse> {
-    return this.http.get<IAddressResponse>(this.baseUrl + this.providerPath + `/cep/${cep}`);
+  public getCep() {
+    let cep = this.personForm.get("zipcode");
+    if (cep?.valid) {
+      this.cepLoading = true;
+      this.provider.getCep(cep.value).subscribe({
+        next: (val: IAddressResponse) => {
+          this.personForm.get("street")!.setValue(val.logradouro);
+          if (val.complemento != null) {
+            this.personForm.get("extraLine")!.setValue(val.complemento);
+          }
+          this.personForm.get("neighborhood")!.setValue(val.bairro);
+          this.personForm.get("city")!.setValue(val.localidade);
+          this.personForm.get("state")!.setValue(val.uf);
+          this.cepLoading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.cepLoading = false;
+        },
+      })
+    } else {
+      cep?.markAsTouched();
+    }
   }
 
   public actionsAfterCreatePerson() {

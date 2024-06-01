@@ -1,0 +1,155 @@
+<app-modal [modalId]="modalId" [modalTitle]="modalTitle">
+  <form
+    class="space-y-1"
+    [formGroup]="person.personForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="firstName"
+          label="Nome"
+          formControlName="firstName"
+          placeHolder="Seu primeiro nome"
+          [form]="person.personForm"
+        />
+      </div>
+
+      <div class="flex-1">
+        <app-custom-input
+          id="lastName"
+          label="Sobrenome"
+          formControlName="lastName"
+          placeHolder="Seu sobrenome aqui"
+          [form]="person.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="document"
+          label="Documento"
+          mask="000.000.000-00"
+          formControlName="document"
+          placeHolder="Texto aqui"
+          [form]="person.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="phoneNumber"
+          inputType="tel"
+          label="Celular"
+          mask="(00) 00000-0000"
+          [useMask]="false"
+          formControlName="phoneNumber"
+          placeHolder="Celular"
+          [form]="person.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          inputType="email"
+          id="email"
+          label="E-mail"
+          formControlName="email"
+          placeHolder="E-mail"
+          [form]="person.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="dateOfBirth"
+          label="Data de nascimento"
+          formControlName="dateOfBirth"
+          mask="00/00/0000"
+          [useMask]="false"
+          placeHolder="Data de nascimento"
+          [form]="person.personForm"
+        />
+      </div>
+    </div>
+    <div class="flex flex-row items-end gap-2">
+      <div class="flex-1">
+        <app-custom-input
+          id="zipcode"
+          label="CEP"
+          formControlName="zipcode"
+          mask="00000-000"
+          placeHolder="CEP"
+          [form]="person.personForm"
+        />
+      </div>
+      <app-primary-button
+        title="Buscar"
+        inputType="button"
+        [isLoading]="person.cepLoading"
+        (onTap)="getCep()"
+        height="h-11"
+      />
+    </div>
+    <app-custom-input
+      id="street"
+      label="Rua"
+      formControlName="street"
+      placeHolder="Rua"
+      [form]="person.personForm"
+    />
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="max-2xl:w-20 max-sm:w-auto">
+        <app-custom-input
+          id="number"
+          label="Nº"
+          formControlName="number"
+          placeHolder="Número"
+          [form]="person.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="extraLine"
+          label="Complemento"
+          formControlName="extraLine"
+          placeHolder="Complemento da residência (opcional)"
+          [form]="person.personForm"
+        />
+      </div>
+    </div>
+    <app-custom-input
+      id="neighborhood"
+      label="Bairro"
+      formControlName="neighborhood"
+      placeHolder="Bairro"
+      [form]="person.personForm"
+    />
+    <div class="flex md:flex-row max-sm:flex-col gap-2">
+      <div class="max-2xl:w-20 max-sm:w-auto">
+        <app-custom-input
+          id="state"
+          label="Estado"
+          formControlName="state"
+          placeHolder="UF"
+          [form]="person.personForm"
+        />
+      </div>
+      <div class="flex-1">
+        <app-custom-input
+          id="city"
+          label="Cidade"
+          formControlName="city"
+          placeHolder="Cidade"
+          [form]="person.personForm"
+        />
+      </div>
+    </div>
+    <div class="h-4"></div>
+    <app-primary-button
+      title="Criar"
+      inputType="submit"
+      width="w-full"
+      [isLoading]="person.createLoading"
+    /></form
+></app-modal>

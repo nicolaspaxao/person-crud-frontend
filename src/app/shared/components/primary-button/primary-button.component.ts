@@ -14,9 +14,14 @@ export class PrimaryButtonComponent {
   @Input() title: string = '';
   @Input() inputType: string = 'button';
   @Input() height: string = '';
+  @Input() width: string = '';
   @Output() onTap: EventEmitter<any> = new EventEmitter;
 
   public onClick() {
     this.onTap.emit();
+  }
+
+  public newClasses() {
+    return `${this.height} ${this.width}`
   }
 }
