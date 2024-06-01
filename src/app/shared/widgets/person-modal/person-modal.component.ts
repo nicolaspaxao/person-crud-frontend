@@ -18,6 +18,9 @@ export class PersonModalComponent {
 
   @Input() modalId?: string;
   @Input() modalTitle?: string;
+  @Input() buttonSubmitTitle?: string = 'Confirmar';
+  @Input() buttonSubmitLoading: boolean = false;
+  @Input() disableDocument?: boolean = false;
 
   @Output() submitEvent: EventEmitter<any> = new EventEmitter<any>;
 

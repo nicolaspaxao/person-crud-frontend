@@ -1,13 +1,9 @@
 <app-modal [modalId]="modalId" [modalTitle]="modalTitle">
-  <form
-    class="space-y-1"
-    [formGroup]="person.personForm"
-    (ngSubmit)="onSubmit()"
-  >
+  <form class="space-y-1" [formGroup]="person.personForm">
     <div class="flex md:flex-row max-sm:flex-col gap-2">
       <div class="flex-1">
         <app-custom-input
-          id="firstName"
+          inputId="firstName"
           label="Nome"
           formControlName="firstName"
           placeHolder="Seu primeiro nome"
@@ -17,7 +13,7 @@
 
       <div class="flex-1">
         <app-custom-input
-          id="lastName"
+          inputId="lastName"
           label="Sobrenome"
           formControlName="lastName"
           placeHolder="Seu sobrenome aqui"
@@ -28,23 +24,24 @@
     <div class="flex md:flex-row max-sm:flex-col gap-2">
       <div class="flex-1">
         <app-custom-input
-          id="document"
+          inputId="document"
           label="Documento"
           mask="000.000.000-00"
           formControlName="document"
-          placeHolder="Texto aqui"
+          placeHolder="Ex.: 123.456.789-10"
           [form]="person.personForm"
+          [inputDisable]="disableDocument"
         />
       </div>
       <div class="flex-1">
         <app-custom-input
-          id="phoneNumber"
+          inputId="phoneNumber"
           inputType="tel"
           label="Celular"
           mask="(00) 00000-0000"
           [useMask]="false"
           formControlName="phoneNumber"
-          placeHolder="Celular"
+          placeHolder="Ex.: (11) 98888-8888"
           [form]="person.personForm"
         />
       </div>
@@ -53,82 +50,80 @@
       <div class="flex-1">
         <app-custom-input
           inputType="email"
-          id="email"
+          inputId="email"
           label="E-mail"
           formControlName="email"
-          placeHolder="E-mail"
+          placeHolder="Ex.: exemple@email.com"
           [form]="person.personForm"
         />
       </div>
       <div class="flex-1">
         <app-custom-input
-          id="dateOfBirth"
+          inputId="dateOfBirth"
           label="Data de nascimento"
           formControlName="dateOfBirth"
           mask="00/00/0000"
           [useMask]="false"
-          placeHolder="Data de nascimento"
+          placeHolder="Ex.: 01/01/1999"
           [form]="person.personForm"
         />
       </div>
     </div>
-    <div class="flex flex-row items-end gap-2">
-      <div class="flex-1">
-        <app-custom-input
-          id="zipcode"
-          label="CEP"
-          formControlName="zipcode"
-          mask="00000-000"
-          placeHolder="CEP"
-          [form]="person.personForm"
-        />
-      </div>
+
+    <app-custom-input
+      inputId="zipcode"
+      label="CEP"
+      formControlName="zipcode"
+      mask="00000-000"
+      placeHolder="Ex.: 12345-678"
+      [form]="person.personForm"
+    >
       <app-primary-button
         title="Buscar"
         inputType="button"
         [isLoading]="person.cepLoading"
         (onTap)="getCep()"
         height="h-11"
-      />
-    </div>
+    /></app-custom-input>
+
     <app-custom-input
-      id="street"
+      inputId="street"
       label="Rua"
       formControlName="street"
-      placeHolder="Rua"
+      placeHolder="Ex.: Rua dos bandeirantes"
       [form]="person.personForm"
     />
     <div class="flex md:flex-row max-sm:flex-col gap-2">
       <div class="max-2xl:w-20 max-sm:w-auto">
         <app-custom-input
-          id="number"
+          inputId="number"
           label="Nº"
           formControlName="number"
-          placeHolder="Número"
+          placeHolder="Nº resinputIdência"
           [form]="person.personForm"
         />
       </div>
       <div class="flex-1">
         <app-custom-input
-          id="extraLine"
+          inputId="extraLine"
           label="Complemento"
           formControlName="extraLine"
-          placeHolder="Complemento da residência (opcional)"
+          placeHolder="Complemento da resinputIdência (opcional)"
           [form]="person.personForm"
         />
       </div>
     </div>
     <app-custom-input
-      id="neighborhood"
+      inputId="neighborhood"
       label="Bairro"
       formControlName="neighborhood"
-      placeHolder="Bairro"
+      placeHolder="Ex.: Parque das andurinhas"
       [form]="person.personForm"
     />
     <div class="flex md:flex-row max-sm:flex-col gap-2">
       <div class="max-2xl:w-20 max-sm:w-auto">
         <app-custom-input
-          id="state"
+          inputId="state"
           label="Estado"
           formControlName="state"
           placeHolder="UF"
@@ -137,19 +132,21 @@
       </div>
       <div class="flex-1">
         <app-custom-input
-          id="city"
-          label="Cidade"
+          inputId="city"
+          label="CinputIdade"
           formControlName="city"
-          placeHolder="Cidade"
+          placeHolder="Ex.: São Paulo"
           [form]="person.personForm"
         />
       </div>
     </div>
     <div class="h-4"></div>
     <app-primary-button
-      title="Criar"
+      id="id-{{ modalId }}"
+      title="{{ buttonSubmitTitle }}"
       inputType="submit"
       width="w-full"
-      [isLoading]="person.createLoading"
+      [isLoading]="buttonSubmitLoading"
+      (onTap)="onSubmit()"
     /></form
 ></app-modal>

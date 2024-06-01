@@ -23,8 +23,10 @@ export class CustomInputComponent implements ControlValueAccessor {
   @Input() useMask?: boolean;
   @Input() placeHolder: string = 'Text';
   @Input() mask?: string;
-  @Input() id: string = '';
+  @Input() inputId: string = '';
   @Input() form?: FormGroup;
+  @Input() inputDisable?: boolean;
+  @Input() errorMessage: string = 'Campo requirido'
 
   public get utils() { return AppUtils }
 

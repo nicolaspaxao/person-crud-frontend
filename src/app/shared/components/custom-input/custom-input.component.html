@@ -1,20 +1,30 @@
 <div>
   <label
-    [for]="id"
+    [for]="inputId"
     class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+    [ngClass]="{
+      'text-gray-300': inputDisable == true
+    }"
     >{{ label }}
   </label>
-  <input
-    [id]="id"
-    [name]="id"
-    [mask]="mask"
-    [type]="inputType"
-    [value]="value"
-    [disabled]="disabled"
-    [placeholder]="placeHolder"
-    [dropSpecialCharacters]="useMask!"
-    (input)="handleInputChange($event)"
-    [ngClass]="utils.checkInput(form!, id!)"
-    class="border text-sm rounded-lg block w-full p-2.5 flex-1"
-  />
+  <div class="flex flex-row gap-2 w-full">
+    <input
+      [id]="inputId"
+      [name]="inputId"
+      [mask]="mask"
+      [type]="inputType"
+      [value]="value"
+      [disabled]="inputDisable"
+      [placeholder]="placeHolder"
+      [dropSpecialCharacters]="useMask!"
+      (input)="handleInputChange($event)"
+      [ngClass]="utils.checkInput(form!, inputId!)"
+      class="border text-sm rounded-lg block w-full p-2.5 flex-1 disabled:border-gray-100 disabled:placeholder:text-gray-400 disabled:text-gray-400"
+    />
+    <ng-content></ng-content>
+  </div>
+
+  <div *ngIf="utils.isInputError(form!, inputId!)">
+    <span class="text-red-500 font-medium text-xs">{{ errorMessage }}</span>
+  </div>
 </div>

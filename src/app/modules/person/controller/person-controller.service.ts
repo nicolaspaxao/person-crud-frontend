@@ -3,11 +3,11 @@ import { IPerson } from '../../../models/person-model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environment/environment';
 import { IAddressResponse } from '../../../models/address-response';
-import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppValidators } from '../../../core/utils/app-validator';
 import { ProviderApiService } from '../../../core/providers/provider-api.service';
 import { AppRemovers } from '../../../core/utils/app-removers';
+import { AppUtils } from '../../../core/utils/app-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,7 @@ export class PersonControllerService {
 
   public cepLoading: boolean = false;
   public createLoading: boolean = false;
+  public updateLoading: boolean = false;
 
   public personForm: FormGroup = this.form.group({
     firstName: [null, [Validators.required]],
@@ -66,6 +67,28 @@ export class PersonControllerService {
     return this.http.post<IPerson>(this.baseUrl + this.personPath, person);
   }
 
+  public updatePerson(id: string, form: FormGroup) {
+    let person: IPerson = {
+      id: id,
+      firstName: form.value.firstName,
+      lastName: form.value.lastName,
+      document: AppRemovers.removeDocMask(form.value.document),
+      email: form.value.email,
+      phoneNumber: AppRemovers.removePhoneMask(form.value.phoneNumber),
+      dateOfBirth: form.value.dateOfBirth,
+      address: {
+        zipCode: form.value.zipcode,
+        street: form.value.street,
+        extraLine: form.value.extraLine,
+        neighborhood: form.value.neighborhood,
+        city: form.value.city,
+        state: form.value.state,
+        number: form.value.number
+      },
+    };
+    return this.http.put<IPerson>(this.baseUrl + this.personPath, person);
+  }
+
   public getCep() {
     let cep = this.personForm.get("zipcode");
     if (cep?.valid) {
@@ -91,7 +114,23 @@ export class PersonControllerService {
     }
   }
 
-  public actionsAfterCreatePerson() {
+  public fillFormValues(person: IPerson) {
+    this.personForm.get("firstName")!.setValue(person.firstName);
+    this.personForm.get("lastName")!.setValue(person.lastName);
+    this.personForm.get("document")!.setValue(AppUtils.addFormatCPF(person.document));
+    this.personForm.get("email")!.setValue(person.email);
+    this.personForm.get("phoneNumber")!.setValue(AppUtils.addFormatPhoneNumber(person.phoneNumber));
+    this.personForm.get("dateOfBirth")!.setValue(person.dateOfBirth);
+    this.personForm.get("zipcode")!.setValue(AppUtils.addFormatCEP(person.address.zipCode));
+    this.personForm.get("street")!.setValue(person.address.street);
+    this.personForm.get("extraLine")!.setValue(person.address.extraLine);
+    this.personForm.get("neighborhood")!.setValue(person.address.neighborhood);
+    this.personForm.get("city")!.setValue(person.address.city);
+    this.personForm.get("state")!.setValue(person.address.state);
+    this.personForm.get("number")!.setValue(person.address.number);
+  }
+
+  public actionsAfterSubmit() {
     this.getPersons();
     this.personForm.clearValidators();
     this.personForm.reset();

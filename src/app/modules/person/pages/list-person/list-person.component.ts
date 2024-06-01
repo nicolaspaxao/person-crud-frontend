@@ -11,6 +11,8 @@ import { ModalComponent } from "../../../../shared/components/modal/modal.compon
 import { CustomInputComponent } from '../../../../shared/components/custom-input/custom-input.component';
 import { PersonModalComponent } from "../../../../shared/widgets/person-modal/person-modal.component";
 import { IErrorResponse } from '../../../../models/error-response';
+import { AppClassCombo } from '../../../../core/utils/app-class-combo';
+import { IPerson } from '../../../../models/person-model';
 
 @Component({
   selector: 'app-list-person',
@@ -22,34 +24,71 @@ import { IErrorResponse } from '../../../../models/error-response';
 })
 export class ListPersonComponent {
   public get utils() { return AppUtils }
+  public get classes() { return AppClassCombo }
 
-  constructor(public personController: PersonController) { }
+  public personId: string = '';
 
-  ngOnInit() { }
+  constructor(public controller: PersonController) { }
 
-  public onSubmit(): void {
-    if (this.personController.personForm.invalid) {
-      this.personController.personForm.markAllAsTouched();
+  ngOnInit() {
+    this.controller.getPersons()
+  }
+
+  public onCreate(): void {
+    if (this.controller.personForm.invalid) {
+      this.controller.personForm.markAllAsTouched();
     } else {
       try {
-        this.personController.createLoading = true;
-        this.personController.createPerson(this.personController.personForm).subscribe({
-          next: (value) => {
-            this.personController.actionsAfterCreatePerson();
-            this.personController.createLoading = false;
+        this.controller.createLoading = true;
+        this.controller.createPerson(this.controller.personForm).subscribe({
+          next: () => {
+            this.utils.closeModal('create-modal')
+            this.controller.actionsAfterSubmit();
+            this.controller.createLoading = false;
           },
           error: (err: HttpErrorResponse) => {
             alert(err.error.errorMessage);
-            this.personController.createLoading = false;
+            this.controller.createLoading = false;
           }
         });
       } catch (e) {
-        this.personController.createLoading = false;
+        this.controller.createLoading = false;
       }
     }
   }
 
+
+  public onUpdate(): void {
+    if (this.controller.personForm.invalid) {
+      this.controller.personForm.markAllAsTouched();
+    } else {
+      try {
+        this.controller.updateLoading = true;
+        this.controller.updatePerson(this.personId, this.controller.personForm).subscribe({
+          next: () => {
+            this.utils.closeModal('edit-modal')
+            this.controller.actionsAfterSubmit();
+            this.controller.updateLoading = false;
+          },
+          error: (err: HttpErrorResponse) => {
+            alert(err.error.errorMessage);
+            this.controller.updateLoading = false;
+          }
+        });
+      } catch (e) {
+        this.controller.updateLoading = false;
+      }
+    }
+  }
+
+  public onEdit(person: IPerson) {
+    this.personId = '';
+    this.personId = person.id!;
+    this.controller.personForm.reset();
+    this.controller.fillFormValues(person);
+  }
+
   public clearForm() {
-    this.personController.personForm.reset();
+    this.controller.personForm.reset();
   }
 }

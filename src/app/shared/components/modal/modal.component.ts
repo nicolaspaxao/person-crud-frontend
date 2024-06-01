@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -9,13 +9,12 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-  @ViewChild('closeBtn') closeBtn?: ElementRef;
-
   @Input() modalId?: string;
   @Input() modalTitle?: string;
 
-  ngOnInit() {
-    document.querySelector<HTMLElement>("#close-btn")!.setAttribute('data-modal-hide', this.modalId!)
+
+  ngAfterViewInit() {
+    document.querySelector<HTMLElement>(`.id-${this.modalId!}`)!.setAttribute('data-modal-hide', this.modalId!)
   }
 
 }
