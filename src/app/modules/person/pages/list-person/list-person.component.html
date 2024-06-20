@@ -32,8 +32,10 @@
             >
               <img src="../../../../assets/icons/edit.svg" alt="Editar icone" />
             </button>
+
             <button
               class="border border-gray-100 rounded-md hover:border-blue-200"
+              (click)="onDelete(person.id!)"
             >
               <img
                 src="../../../../assets/icons/remove.svg"

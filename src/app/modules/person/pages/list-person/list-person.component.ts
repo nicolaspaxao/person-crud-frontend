@@ -81,6 +81,14 @@ export class ListPersonComponent {
     }
   }
 
+  public onDelete(id: string) {
+    this.controller.deletePerson(id).subscribe({
+      next: () => {
+        this.controller.getPersons();
+      }
+    })
+  }
+
   public onEdit(person: IPerson) {
     this.personId = '';
     this.personId = person.id!;

@@ -89,6 +89,11 @@ export class PersonControllerService {
     return this.http.put<IPerson>(this.baseUrl + this.personPath, person);
   }
 
+  public deletePerson(id: string) {
+    let url = this.baseUrl + this.personPath + `/${id}`;
+    return this.http.delete<IPerson>(url);
+  }
+
   public getCep() {
     let cep = this.personForm.get("zipcode");
     if (cep?.valid) {
